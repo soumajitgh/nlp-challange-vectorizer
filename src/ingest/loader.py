@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import List
+from loguru import logger
 
 class DocumentLoader:
     def __init__(self, data_dir: str):
@@ -11,6 +12,7 @@ class DocumentLoader:
         If extensions is None, looks for common document types.
         """
         if not self.data_dir.exists():
+            logger.error(f"Directory {self.data_dir} not found")
             raise FileNotFoundError(f"Directory {self.data_dir} not found")
 
         if extensions is None:

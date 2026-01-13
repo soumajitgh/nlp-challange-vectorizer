@@ -1,15 +1,16 @@
 from PIL import Image
 import torch
 from transformers import AutoProcessor, AutoModel
+from loguru import logger
 
 class ImageVectorizer:
     def __init__(self, model_name: str = "google/siglip-base-patch16-224"):
-        print(f"Loading SigLIP model: {model_name}...")
+        logger.info(f"Loading SigLIP model: {model_name}...")
         self.processor = AutoProcessor.from_pretrained(model_name)
         self.model = AutoModel.from_pretrained(model_name)
         self.device = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
         self.model.to(self.device)
-        print(f"Model loaded on {self.device}")
+        logger.info(f"Model loaded on {self.device}")
 
     def vectorize(self, image: Image.Image):
         """
